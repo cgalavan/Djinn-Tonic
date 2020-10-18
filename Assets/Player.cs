@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         float movementSpeed = 0.0f;
         if(m_onLadder)
         {
-            m_rigidBody.velocity = new Vector3(m_rigidBody.velocity.x, 0.0f, m_rigidBody.velocity.z);
+            m_rigidBody.velocity = new Vector3(0.0f, 0.0f, m_rigidBody.velocity.z);
             m_rigidBody.useGravity = false;
             movementSpeed = m_ladderMovementSpeed;
         }
