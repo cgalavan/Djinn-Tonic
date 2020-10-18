@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private float m_ladderMovementSpeed;
     [SerializeField]
     private float m_jumpSpeed;
+    [SerializeField]
+    private int m_health;
 
     private bool m_onGround;
     private bool m_onLadder;
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Health: " + m_health);
     }
 
     void OnCollisionEnter(Collision other)
@@ -46,9 +49,18 @@ public class Player : MonoBehaviour
             m_rigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
             m_onLadder = true;
         }
-        else if(other.gameObject.CompareTag("LevelEnd"))
+        if(other.gameObject.CompareTag("LevelEnd"))
         {
             SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            --m_health;
+            Debug.Log("Health: " + m_health);
+            if(m_health <= 0)
+            {
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 

@@ -8,6 +8,7 @@ TagManager:
   - Ladder
   - ChangeEnemyDirection
   - LevelEnd
+  - Enemy
   layers:
   - Default
   - TransparentFX
