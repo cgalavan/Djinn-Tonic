@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     void OnCollisionEnter(Collision other)
@@ -45,6 +45,10 @@ public class Player : MonoBehaviour
         {
             m_rigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
             m_onLadder = true;
+        }
+        else if(other.gameObject.CompareTag("LevelEnd"))
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
