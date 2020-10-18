@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_movementSpeed;
     [SerializeField]
+    private float m_ladderMovementSpeed;
+    [SerializeField]
     private float m_jumpSpeed;
 
     private bool m_onGround;
@@ -57,30 +59,39 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float movementSpeed = 0.0f;
         if(m_onLadder)
         {
             m_rigidBody.velocity = new Vector3(m_rigidBody.velocity.x, 0.0f, m_rigidBody.velocity.z);
+            m_rigidBody.useGravity = false;
+            movementSpeed = m_ladderMovementSpeed;
         }
-        m_rigidBody.velocity = new Vector3(0.0f, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
+        else
+        {
+            m_rigidBody.velocity = new Vector3(0.0f, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
+            m_rigidBody.useGravity = true;
+            movementSpeed = m_movementSpeed;
+        }
+       
         m_rigidBody.useGravity = !m_onLadder;
 
         if (Input.GetKey(KeyCode.D))
         {
-            m_rigidBody.velocity += Vector3.right * m_movementSpeed;
+            m_rigidBody.velocity += Vector3.right * movementSpeed;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            m_rigidBody.velocity -= Vector3.right * m_movementSpeed;
+            m_rigidBody.velocity -= Vector3.right * movementSpeed;
         }
         if(m_onLadder && Input.GetKey(KeyCode.W))
         {
-            m_rigidBody.velocity += Vector3.up * m_movementSpeed * 0.5f;
+            m_rigidBody.velocity += Vector3.up * m_ladderMovementSpeed;
         }
         if(m_onLadder && Input.GetKey(KeyCode.S))
         {
-            m_rigidBody.velocity += Vector3.down * m_movementSpeed * 0.5f;
+            m_rigidBody.velocity += Vector3.down * m_ladderMovementSpeed;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && m_onGround)
+        if (m_onGround && Input.GetKeyDown(KeyCode.Space))
         {
             m_rigidBody.AddForce(Vector3.up * m_jumpSpeed, ForceMode.Impulse);
             m_onGround = false;
