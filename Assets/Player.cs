@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     private bool m_onGround;
     private bool m_onLadder;
+    private int m_pickUpCount;
     private Rigidbody m_rigidBody;
 
     private void Awake()
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
 
         m_onGround = false;
         m_onLadder = false;
+        m_pickUpCount = 0;
     }
 
     // Start is called before the first frame update
@@ -62,6 +64,12 @@ public class Player : MonoBehaviour
                 SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
             }
         }
+        if(other.gameObject.CompareTag("PickUp"))
+        {
+            ++m_pickUpCount;
+            Destroy(other.gameObject);
+            Debug.Log("PickUp Count: " + m_pickUpCount);
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -90,6 +98,11 @@ public class Player : MonoBehaviour
         }
        
         m_rigidBody.useGravity = !m_onLadder;
+
+        if(transform.position.y <= -10.0f)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
 
         if (Input.GetKey(KeyCode.D))
         {

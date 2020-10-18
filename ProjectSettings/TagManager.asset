@@ -9,6 +9,7 @@ TagManager:
   - ChangeEnemyDirection
   - LevelEnd
   - Enemy
+  - PickUp
   layers:
   - Default
   - TransparentFX
